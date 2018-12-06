@@ -19,3 +19,7 @@ class Post(models.Model):
         max_length=255,
         verbose_name="内容"
     )
+
+    #进行列表倒叙
+    class Meta:
+        ordering = ['-created']
