@@ -1,6 +1,7 @@
+from math import ceil
+
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.urls import reverse
 
 from .models import Post
 # Create your views here.
@@ -43,8 +44,16 @@ def delete_post(req):
 
 #查看列表
 def post_list(req):
-    posts = Post.objects.all()
-    return render(req,"post_list.html",{'posts':posts})
+    page = int(req.GET.get('page',1))  #当前页码
+    total = Post.objects.count() #文章数量
+    per_page = 10                #每页显示10篇
+    pages = ceil(total/per_page) #页数
+
+    start = (page - 1) * per_page #当前页开始索引
+    end = start + per_page  #当前页结束索引
+    posts = Post.objects.all()[start:end]
+
+    return render(req,"post_list.html",{'posts':posts,'pages':range(pages)})
 
 #搜索
 def search(req):
