@@ -4,6 +4,8 @@ from user.forms import RegisterForm
 
 from django.contrib.auth.hashers import make_password,check_password
 
+from .models import User
+
 # Create your views here.
 
 #注册
@@ -22,12 +24,35 @@ def register(req):
 
 #登录
 def login(req):
-    return render(req,'login.html',{})
+    if req.method == "POST":
+        nickname = req.POST.get('nickname').strip()
+        password = req.POST.get('password').strip()
+
+        #检查用户是否存在
+        try:
+            user = User.objects.get(nickname=nickname)
+        except User.DoesNotExist:
+            return render(req,'login.html',{'error': '用户不存在'})
+
+        #检查密码是否正确
+        if check_password(password,user.password):
+            req.session['uid'] = user.id
+            req.session['nickname'] = user.nickname
+            req.session['avatar'] = user.icon.url
+            return redirect('/user/info/')
+
+        else:
+            return render(req,'login.html',{'error':'密码错误'})
+    else:
+        return render(req,'login.html',{})
 
 #退出
 def logout(req):
+    req.session.flush()
     return redirect('/')
 
 #用户信息
 def user_info(req):
-    return render(req,'user_info.html',{})
+    uid = req.session.get('uid')
+    user = User.objects.get(pk=uid)
+    return render(req,'user_info.html',{'user':user})
