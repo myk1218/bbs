@@ -60,3 +60,6 @@ def search(req):
     keyword = req.POST.get('keyword')
     posts = Post.objects.filter(title__contains=keyword)
     return render(req,"search.html",{'posts':posts})
+
+
+

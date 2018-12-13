@@ -1,3 +1,6 @@
+
+
+
 """
 Django settings for bbs project.
 
@@ -122,3 +125,6 @@ STATIC_URL = '/statics/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "statics"),
 ]
+
+MEDIA_ROOT = 'medias'  #头像上传的文件夹
+MEDIA_URL = '/midias/' #头像访问的路径
