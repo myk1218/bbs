@@ -15,6 +15,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+from urllib.parse import urlencode
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -128,3 +130,36 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = 'medias'  #头像上传的文件夹
 MEDIA_URL = '/midias/' #头像访问的路径
+
+#微博
+WB_App_Key = '2356968131'
+WB_App_Secret = '27027ca7d874abb5733aa660e340e12d'
+
+#授权回调页
+WB_CALLBACK = 'http://106.12.111.99/weibo/callback/'
+
+#授权认证接口
+WB_AUTH_API = 'https://api.weibo.com/oauth2/authorize'
+WB_AUTH_ARGS = {
+    'client_id': WB_App_Key,
+    'redirect_uri': WB_CALLBACK
+}
+
+WB_AUTH_URL = '%s?%s'%(WB_CALLBACK,urlencode(WB_AUTH_ARGS))
+
+#获取令牌接口
+WB_ACCESS_TOKEN_API = 'https://api.weibo.com/oauth2/access_token'
+WB_ACCESS_TOKEN_ARGS = {
+    'client_id': WB_App_Key,
+    'client_secret': WB_App_Secret,
+    'grant_type': 'authorization_code',
+    'code': None,
+    'redirect_uri': WB_CALLBACK
+}
+
+#获取微博用户数据接口
+WB_USER_SHOW_API = 'https://api.weibo.com/2/users/show.json'
+WB_USER_SHOW_ARGS = {
+    'access_token': None,
+    'uid': None,
+}

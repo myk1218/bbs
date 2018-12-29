@@ -5,9 +5,9 @@ from django.db import models
 class User(models.Model):
 
     SEX = (
-        ('M','男性'),
-        ('F','女性'),
-        ('S','保密')
+        ('男性','男性'),
+        ('女性','女'),
+        ('保密','保密')
     )
 
     nickname = models.CharField(
@@ -35,3 +35,13 @@ class User(models.Model):
     icon = models.ImageField(
         verbose_name='头像'
     )
+
+    plt_icon = models.URLField(
+        default='',
+        verbose_name='第三方平台url',
+    )
+
+    @property
+    def avatar(self):
+        #统一的头像地址
+        return self.plt_icon if self.plt_icon else self.icon.url

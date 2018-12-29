@@ -36,7 +36,8 @@ urlpatterns = [
     url(r"^user/register",user_views.register),
     url(r"^user/login",user_views.login),
     url(r'^user/logout', user_views.logout),
-    url(r"^user/info",user_views.user_info)
+    url(r"^user/info",user_views.user_info),
+    url(r"^weibo/callback/",user_views.weibo_callback),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
