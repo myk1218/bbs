@@ -49,6 +49,9 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 'common.middleware.test_middleware',
+    'common.middleware.BlockMiddleware',
 ]
 
 ROOT_URLCONF = 'bbs.urls'
@@ -69,10 +72,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bbs.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+#数据库配置
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -162,4 +165,23 @@ WB_USER_SHOW_API = 'https://api.weibo.com/2/users/show.json'
 WB_USER_SHOW_ARGS = {
     'access_token': None,
     'uid': None,
+}
+
+#redis缓存配置
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1", #redis的地址和数据库
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+
+#redis 配置
+REDIS = {
+    'host': '106.12.111.99',
+    'port': 1808,
+    'db': 7
 }

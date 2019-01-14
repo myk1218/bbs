@@ -9,6 +9,8 @@ from django.contrib.auth.hashers import make_password,check_password
 from user.helper import get_wb_access_token, wb_user_show
 from .models import User
 
+from post.helper import page_cache
+
 # Create your views here.
 
 #注册
@@ -55,6 +57,7 @@ def logout(req):
     return redirect('/')
 
 #用户信息
+@page_cache
 def user_info(req):
     uid = req.session.get('uid')
     user = User.objects.get(pk=uid)
